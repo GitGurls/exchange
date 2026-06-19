@@ -2,16 +2,6 @@
 
 Full-stack production-grade trading exchange. Zerodha-style order matching engine with PostgreSQL persistence, JWT auth, and real-time WebSockets.
 
-## What's New vs v1
-
-| Feature | v1 | v2 (this) |
-|---|---|---|
-| Database | In-memory (lost on restart) | PostgreSQL (persistent) |
-| Auth | None (hardcoded users) | JWT register/login |
-| Real-time | Polling every 2s | WebSockets (instant) |
-| Balance lock | No | Yes (locked on open orders) |
-| Order cancel | No | Yes |
-| Security | None | Helmet + Rate limiting |
 
 ## Stack
 
