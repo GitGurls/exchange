@@ -93,10 +93,10 @@ export function PlaceOrder({ balance, lastPrice, onOrderPlaced }: Props) {
           <span style={{ color: "#6b7280" }}>TATA Available</span>
           <span style={{ color: "#38bdf8" }}>{tata} shares</span>
         </div>
-        {balance?.INR?.locked > 0 && (
+       {(balance?.INR?.locked ?? 0) > 0 && (
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
             <span style={{ color: "#6b7280" }}>INR Locked</span>
-            <span style={{ color: "#f59e0b" }}>₹{balance.INR.locked.toLocaleString("en-IN")}</span>
+            <span style={{ color: "#f59e0b" }}>₹{(balance?.INR?.locked ?? 0).toLocaleString("en-IN")}</span>
           </div>
         )}
       </div>
