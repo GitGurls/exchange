@@ -177,10 +177,11 @@ export function PriceChart({ lastPrice }: Props) {
     : "0.00";
 
   return (
-    <div style={{
-      background: "#111827", border: "1px solid #1f2937",
-      borderRadius: 10, padding: 16
-    }}>
+   <div style={{
+  background: "#111827", border: "1px solid #1f2937",
+  borderRadius: 10, padding: 16,
+  minHeight: 300   // ← add karo
+}}>
       {/* Header */}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -217,7 +218,7 @@ export function PriceChart({ lastPrice }: Props) {
       </div>
 
       {/* Chart */}
-      <ResponsiveContainer width="100%" height={220}>
+      <ResponsiveContainer width="100%" height={220} minHeight={220}>
         {chartType === "line" ? (
           <AreaChart data={candles} margin={{ top: 5, right: 5, bottom: 0, left: 0 }}>
             <defs>
