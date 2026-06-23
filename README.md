@@ -1,31 +1,41 @@
-# TradeX v2 — Production Trading Exchange
+# TradeX — Production Trading Exchange
 
-Full-stack production-grade trading exchange. Zerodha-style order matching engine with PostgreSQL persistence, JWT auth, and real-time WebSockets.
+Full-stack production-grade trading exchange. Zerodha-style order matching engine with PostgreSQL persistence, JWT auth, real-time WebSockets, and live candlestick charts.
 
+🔗 **Live Demo:** [exchange-black.vercel.app](https://exchange-black.vercel.app)
 
 ## Stack
 
-- **Backend**: Node.js + TypeScript + Express + Prisma + PostgreSQL + WebSockets + JWT
-- **Frontend**: React + Vite + TypeScript
-- **Database**: PostgreSQL (Supabase free tier)
-- **Deploy**: Render (backend) + Vercel (frontend)
+- **Backend:** Node.js + TypeScript + Express + Prisma + PostgreSQL + WebSockets + JWT
+- **Frontend:** React + Vite + TypeScript + Recharts
+- **Database:** PostgreSQL (Supabase)
+- **Deploy:** Render (backend) + Vercel (frontend)
+
+## Features
+
+- ✅ Real order matching engine (limit & market orders)
+- ✅ Partial fills — unfilled remainder stays in book
+- ✅ Balance locking (available vs locked) — like real exchanges
+- ✅ JWT authentication (register/login)
+- ✅ Order cancellation with balance unlock
+- ✅ WebSocket real-time order book + trades
+- ✅ Live candlestick & line price chart
 
 ## Quick Start
 
-### 1. Database Setup (Supabase — free)
+### 1. Database (Supabase — free)
 1. Go to [supabase.com](https://supabase.com) → New Project
-2. Copy the **Connection String** (URI format)
-3. Paste into `backend/.env` as `DATABASE_URL`
+2. Connect → ORM tab → copy both `DATABASE_URL` and `DIRECT_URL`
 
 ### 2. Backend
 ```bash
 cd backend
 npm install
 cp .env.example .env
-# Fill in DATABASE_URL and JWT_SECRET in .env
+# Fill in DATABASE_URL, DIRECT_URL, JWT_SECRET
 
-npx prisma db push      # Create tables
-npm run dev             # Start server on :3000
+npx prisma db push   # Create tables
+npm run dev          # Start on :3000
 ```
 
 ### 3. Frontend
@@ -33,24 +43,26 @@ npm run dev             # Start server on :3000
 cd frontend
 npm install
 cp .env.example .env.local
-npm run dev             # Start on :5173
+# Set VITE_API_URL and VITE_WS_URL
+
+npm run dev          # Start on :5173
 ```
 
 ## Deploy
 
 ### Backend → Render
-1. Push `backend/` to GitHub
-2. New Web Service → connect repo
+1. Push repo to GitHub
+2. New Web Service → Root Directory: `backend`
 3. Build: `npm install && npx prisma generate && npm run build`
-4. Start: `npx prisma migrate deploy && npm start`
-5. Add env vars: `DATABASE_URL`, `JWT_SECRET`, `FRONTEND_URL`
+4. Start: `npm start`
+5. Env vars: `DATABASE_URL`, `DIRECT_URL`, `JWT_SECRET`, `FRONTEND_URL`
 
 ### Frontend → Vercel
-1. Push `frontend/` to GitHub
-2. Import to Vercel, framework: Vite
-3. Add env vars:
-   - `VITE_API_URL` = your Render URL (e.g. `https://tradex-backend.onrender.com`)
-   - `VITE_WS_URL` = `wss://tradex-backend.onrender.com/ws`
+1. Import repo → Root Directory: `frontend`
+2. Framework: Vite
+3. Env vars:
+   - `VITE_API_URL` = `https://your-backend.onrender.com`
+   - `VITE_WS_URL` = `wss://your-backend.onrender.com/ws`
 
 ## API Reference
 
@@ -61,19 +73,20 @@ POST /auth/login      { email, password }
 GET  /auth/me         (Bearer token)
 ```
 
-### Orders (all require Bearer token)
+### Orders (Bearer token required)
 ```
-POST   /order         { side, type, price?, quantity, market }
-GET    /order         → my orders list
-DELETE /order/:id     → cancel order
+POST   /order    { side, type, price?, quantity, market }
+GET    /order    → my orders
+DELETE /order/:id → cancel order
 ```
 
-### Market Data (public)
+### Market Data
 ```
-GET /market/depth     → orderbook bids/asks
-GET /market/trades    → recent fills
-GET /market/ticker    → last price
-GET /market/balance   → my balances (auth required)
+GET /market/depth    → orderbook bids/asks
+GET /market/trades   → recent fills
+GET /market/ticker   → last price
+GET /market/balance  → my balances (auth required)
+GET /health          → server status
 ```
 
 ## Generate JWT Secret
