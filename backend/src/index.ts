@@ -51,7 +51,7 @@ const server = http.createServer(app);
 // Attach WebSocket server to HTTP server
 wsServer.init(server);
 
-server.listen(PORT, async () => {
+server.listen(PORT,"0.0.0.0",  async () => {
   console.log(`\n🚀 Exchange server running on http://localhost:${PORT}`);
   console.log(`📡 WebSocket server on ws://localhost:${PORT}/ws`);
   console.log(`\nRoutes:`);
