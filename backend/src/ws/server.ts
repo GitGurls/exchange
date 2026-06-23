@@ -8,7 +8,7 @@ class ExchangeWSServer {
   private clients: Set<WebSocket> = new Set();
 
   init(server: Server) {
-    this.wss = new WebSocketServer({ server, path: "/ws" });
+    this.wss = new WebSocketServer({ server, path: "/ws", perMessageDeflate: false });
 
     this.wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
       console.log(`WS client connected. Total: ${this.clients.size + 1}`);
