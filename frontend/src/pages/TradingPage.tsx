@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { OrderBook } from "../components/OrderBook";
 import { PlaceOrder } from "../components/PlaceOrder";
 import { MyOrders } from "../components/MyOrders";
+import { PriceChart } from "../components/PriceChart";
 
 export function TradingPage() {
   const { user, logout } = useAuth();
@@ -104,6 +105,8 @@ export function TradingPage() {
             ))}
           </div>
 
+          {/* Price Chart — YE ADD KARO */}
+<PriceChart lastPrice={lastPrice} />
           {/* Tabs */}
           <div style={{ ...col, flex: 1 }}>
             <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
